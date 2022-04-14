@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+</head>
+<body>
+<div th:switch="${users}">
+    <h2 th:case="null">No users found!</h2>
+    <table border="1">
+        <caption>
+            <h3>Users</h3>
+        </caption>
+        <tr>
+            <colgroup>
+                <col span="5" style="background-color: #3c8c99">
+            </colgroup>
+            <th>Id</th>
+            <th>User Name</th>
+            <th>Password</th>
+            <th>Role</th>
+            <th>Action</th>
+        </tr>
+        <tr th:each="user : ${users}">
+            <td th:utext="${user.getId()}">VALUE</td>
+            <td th:utext="${user.getUsername()}">VALUE</td>
+            <td th:utext="${user.getPassword()}">VALUE</td>
+                            <td>
+                                <div th:each="role:${user.getRoles()}">[[${role.getName()}]]</div>
+                            </td>
+
+            <td>
+                <a th:href="@{/{id}(id=${user.getId()})}">
+                    <input type="submit" value="UPDATE">
+                </a>
+                <br>
+                <br>
+                <a th:href="@{/delete/{id}(id=${user.getId()})}" >
+                    <input type="submit" value="DELETE"/>
+                </a>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <form name="logOut" th:action="@{/logout}" method="post">
+        <input type="submit" value="Exit">
+    </form>
+    <br>
+    <form method="get" action="/registration">
+        <button type="submit">Registration new user</button>
+    </form>
+</div>
+</body>
+</html>
